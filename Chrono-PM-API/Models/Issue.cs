@@ -20,7 +20,7 @@ public class Issue
     [MaxLength(250)]
     public string Description { get; set; } = string.Empty;
     public DateTime DueDateTime { get; set; }
-    public DateTime CreatedAt { get; set; }
+    public DateTime CreatedAt { get; init; } = DateTime.Now;
     public DateTime OriginalEstimate { get; set; }
     public DateTime RemainingEstimate { get; set; }
 

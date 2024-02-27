@@ -11,7 +11,7 @@ public record Comment
     [MaxLength(50)] public string Summary { get; init; } = string.Empty;
 
     [MaxLength(250)] public string Content { get; init; } = string.Empty;
-    public DateTime CreatedAt { get; init; }
+    public DateTime CreatedAt { get; init; } = DateTime.Now;
 
     [Required(ErrorMessage = "AuthorId is required")]
     public string AuthorId { get; init; } = string.Empty;
