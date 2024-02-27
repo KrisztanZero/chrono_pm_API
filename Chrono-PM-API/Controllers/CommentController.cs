@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Chrono_PM_API.Controllers;
 [Route("api/[controller]")]
 [ApiController]
-public class CommentController : Controller
+public class CommentController : ControllerBase
 {
     private readonly ICommentService _commentService;
 

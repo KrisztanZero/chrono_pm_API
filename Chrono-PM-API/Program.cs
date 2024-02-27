@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -19,10 +20,10 @@ builder.Services.AddAuthorization();
 builder.Services.AddIdentityApiEndpoints<AppUser>()
     .AddEntityFrameworkStores<AppDbContext>();
 
-builder.Services.AddScoped<IssueRepository, IssueRepository>();
-builder.Services.AddScoped<ICommentRepository, CommentRepository>();
-
+builder.Services.AddScoped<IIssueRepository, IssueRepository>();
 builder.Services.AddScoped<IIssueService, IssueService>();
+
+builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 builder.Services.AddScoped<ICommentService, CommentService>();
 
 var app = builder.Build();

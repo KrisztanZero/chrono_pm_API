@@ -6,8 +6,8 @@ namespace Chrono_PM_API.Models;
 
 public class Issue
 {
-    [Required]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    [MaxLength(450)]
     public string Id { get; init; } = string.Empty;
     [MaxLength(50)]
     public string Title { get; set; } = string.Empty;
@@ -21,12 +21,12 @@ public class Issue
     public string Description { get; set; } = string.Empty;
     public DateTime DueDateTime { get; set; }
     public DateTime CreatedAt { get; init; } = DateTime.Now;
-    public DateTime OriginalEstimate { get; set; }
-    public DateTime RemainingEstimate { get; set; }
+    public int OriginalEstimate { get; set; }
+    public int RemainingEstimate { get; set; }
 
     [Required(ErrorMessage = "AuthorId is required")]
     public string AuthorId { get; init; } = string.Empty;
 
-    public ICollection<int> AssigneeIds { get; set; } = new List<int>();
-    public ICollection<int> CommentIds { get; set; } = new List<int>();
+    public List<string> AssigneeIds { get; set; } = new List<string>();
+    public List<string> CommentIds { get; set; } = new List<string>();
 }

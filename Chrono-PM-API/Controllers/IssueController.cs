@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Chrono_PM_API.Controllers;
 [Route("api/[controller]")]
 [ApiController]
-public class IssueController : Controller
+public class IssueController : ControllerBase
 {
     private readonly IIssueService _issueService;
 
