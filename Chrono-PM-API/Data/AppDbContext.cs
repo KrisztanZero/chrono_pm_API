@@ -11,4 +11,6 @@ public class AppDbContext : IdentityDbContext<AppUser>
     {
         
     }
+    public DbSet<Issue> Issues { get; set; }
+    public DbSet<Comment> Comments { get; set; }
 }
