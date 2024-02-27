@@ -33,9 +33,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseHttpsRedirection();
+
+app.UseRouting();
+
+app.MapControllers();
 
 app.MapIdentityApi<AppUser>();
-
-app.UseHttpsRedirection();
 
 app.Run();
