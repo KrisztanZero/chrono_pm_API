@@ -7,8 +7,7 @@ namespace Chrono_PM_API.Models;
 public class Issue
 {
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    [MaxLength(450)]
-    public string Id { get; init; } = string.Empty;
+    public int Id { get; init; }
     [MaxLength(50)]
     public string Title { get; set; } = string.Empty;
     [MaxLength(50)]
@@ -28,5 +27,5 @@ public class Issue
     public string AuthorId { get; init; } = string.Empty;
 
     public List<string> AssigneeIds { get; set; } = new List<string>();
-    public List<string> CommentIds { get; set; } = new List<string>();
+    public List<int> CommentIds { get; set; } = new List<int>();
 }

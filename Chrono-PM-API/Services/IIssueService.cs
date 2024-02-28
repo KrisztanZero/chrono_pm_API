@@ -1,11 +1,13 @@
-﻿using Chrono_PM_API.Models;
+﻿using Chrono_PM_API.Dtos.Issue;
+using Chrono_PM_API.Models;
 
 namespace Chrono_PM_API.Services;
 
 public interface IIssueService
 {
     Task<IEnumerable<Issue>> GetIssuesAsync();
-    Task<Issue> GetIssueByIdAsync(string id);
-    Task<Issue> CreateIssueAsync(Issue issue);
-    Task<bool> DeleteIssueAsync(string id);
+    Task<Issue> GetIssueByIdAsync(int id);
+    Task<IssueDto> CreateIssueAsync(CreateIssueDto createIssueDto, string currentUserId);
+    Task<IssueDto> UpdateIssueAsync(UpdateIssueDto updateIssueDto, int id);
+    Task<bool> DeleteIssueAsync(int id);
 }

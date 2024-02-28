@@ -22,7 +22,7 @@ public class CommentController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<Comment>> GetComment(string id)
+    public async Task<ActionResult<Comment>> GetComment(int id)
     {
         var comment = await _commentService.GetCommentByIdAsync(id);
         if (comment == null)
@@ -51,7 +51,7 @@ public class CommentController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteComment(string id)
+    public async Task<IActionResult> DeleteComment(int id)
     {
         var result = await _commentService.DeleteCommentAsync(id);
         if (!result)

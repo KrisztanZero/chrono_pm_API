@@ -6,8 +6,7 @@ namespace Chrono_PM_API.Models;
 public record Comment
 {
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    [MaxLength(450)]
-    public string Id { get; init; } = string.Empty;
+    public int Id { get; init; }
     [MaxLength(50)] public string Summary { get; init; } = string.Empty;
 
     [MaxLength(250)] public string Content { get; init; } = string.Empty;

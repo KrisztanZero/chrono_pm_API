@@ -18,7 +18,7 @@ public class CommentRepository : ICommentRepository
         return await _context.Comments.ToListAsync();
     }
 
-    public async Task<Comment> GetCommentByIdAsync(string id)
+    public async Task<Comment> GetCommentByIdAsync(int id)
     {
         return await _context.Comments.FindAsync(id);
     }
@@ -30,7 +30,7 @@ public class CommentRepository : ICommentRepository
         return comment;
     }
 
-    public async Task<bool> DeleteCommentAsync(string id)
+    public async Task<bool> DeleteCommentAsync(int id)
     {
         var comment = await _context.Comments.FindAsync(id);
         if (comment == null)

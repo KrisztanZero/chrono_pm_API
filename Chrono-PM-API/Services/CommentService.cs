@@ -17,7 +17,7 @@ public class CommentService : ICommentService
         return await _commentRepository.GetCommentsAsync();
     }
 
-    public async Task<Comment> GetCommentByIdAsync(string id)
+    public async Task<Comment> GetCommentByIdAsync(int id)
     {
         return await _commentRepository.GetCommentByIdAsync(id);
     }
@@ -27,7 +27,7 @@ public class CommentService : ICommentService
         return await _commentRepository.CreateCommentAsync(comment);
     }
 
-    public async Task<bool> DeleteCommentAsync(string id)
+    public async Task<bool> DeleteCommentAsync(int id)
     {
         return await _commentRepository.DeleteCommentAsync(id);
     }
