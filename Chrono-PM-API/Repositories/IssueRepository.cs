@@ -18,19 +18,25 @@ public class IssueRepository : IIssueRepository
         return await _context.Issues.ToListAsync();
     }
 
-    public async Task<Issue> GetIssueByIdAsync(string id)
+    public async Task<Issue> GetIssueByIdAsync(int id)
     {
-        return await _context.Issues.FindAsync(id);;
+        return await _context.Issues.FindAsync(id);
     }
 
     public async Task<Issue> CreateIssueAsync(Issue issue)
     {
-        _context.Issues.Add(issue);
+        await _context.Issues.AddAsync(issue);
         await _context.SaveChangesAsync();
         return issue;
     }
 
-    public async Task<bool> DeleteIssueAsync(string id)
+    public async Task<Issue> UpdateIssueAsync(Issue issue)
+    {
+        _context.Entry(issue).State = EntityState.Modified;
+        await _context.SaveChangesAsync();
+        return issue;
+    }
+    public async Task<bool> DeleteIssueAsync(int id)
     {
         var issue = await _context.Issues.FindAsync(id);
         if (issue == null) return false;
