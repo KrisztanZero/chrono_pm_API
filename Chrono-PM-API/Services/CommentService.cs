@@ -1,4 +1,5 @@
-﻿using Chrono_PM_API.Models;
+﻿using Chrono_PM_API.Dtos.Comment;
+using Chrono_PM_API.Mappers;
 using Chrono_PM_API.Repositories;
 
 namespace Chrono_PM_API.Services;
@@ -6,29 +7,59 @@ namespace Chrono_PM_API.Services;
 public class CommentService : ICommentService
 {
     private readonly ICommentRepository _commentRepository;
+    private readonly IIssueRepository _issueRepository;
 
-    public CommentService(ICommentRepository commentRepository)
+    public CommentService(ICommentRepository commentRepository, IIssueRepository issueRepository)
     {
         _commentRepository = commentRepository;
+        _issueRepository = issueRepository;
     }
 
-    public async Task<IEnumerable<Comment>> GetCommentsAsync()
+    public async Task<IEnumerable<CommentDto>> GetCommentsAsync()
     {
-        return await _commentRepository.GetCommentsAsync();
+        var comment = await _commentRepository.GetCommentsAsync();
+        var commentDtoList = CommentMapper.MapToDto(comment);
+        return commentDtoList;
     }
 
-    public async Task<Comment> GetCommentByIdAsync(int id)
+    public async Task<CommentDto> GetCommentByIdAsync(string id)
     {
-        return await _commentRepository.GetCommentByIdAsync(id);
+        var comment = await _commentRepository.GetCommentByIdAsync(id);
+        var commentDto = CommentMapper.MapToDto(comment);
+        return commentDto;
     }
 
-    public async Task<Comment> CreateCommentAsync(Comment comment)
+    public async Task<CommentDto> CreateCommentAsync(CreateCommentDto createCommentDto, string currentUserId)
     {
-        return await _commentRepository.CreateCommentAsync(comment);
+        var comment = CommentMapper.MapToModel(createCommentDto, currentUserId);
+        await _commentRepository.CreateCommentAsync(comment);
+        var commentId = comment.Id;
+        var existingIssue = await _issueRepository.GetIssueByIdAsync(createCommentDto.IssueId);
+        existingIssue.CommentIds.Add(commentId);
+        await _issueRepository.UpdateIssueAsync(existingIssue);
+        var commentDto = CommentMapper.MapToDto(comment);
+        return commentDto;
     }
 
-    public async Task<bool> DeleteCommentAsync(int id)
+    public async Task<bool> DeleteCommentAsync(string id)
     {
-        return await _commentRepository.DeleteCommentAsync(id);
+        try
+        {
+            var comment = await _commentRepository.GetCommentByIdAsync(id);
+
+            await _commentRepository.DeleteCommentAsync(id);
+
+            var issue = await _issueRepository.GetIssueByIdAsync(comment.IssueId);
+
+            issue.CommentIds.Remove(id);
+
+            await _issueRepository.UpdateIssueAsync(issue);
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            return false;
+        }
     }
 }

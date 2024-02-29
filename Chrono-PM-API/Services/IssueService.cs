@@ -23,7 +23,7 @@ public class IssueService : IIssueService
         return issueDtoList;
     }
 
-    public async Task<Issue> GetIssueByIdAsync(int id)
+    public async Task<Issue> GetIssueByIdAsync(string id)
     {
         return await _issueRepository.GetIssueByIdAsync(id);
     }
@@ -36,33 +36,23 @@ public class IssueService : IIssueService
         return issueDto;
     }
 
-    public async Task<IssueDto> UpdateIssueAsync(UpdateIssueDto updateIssueDto, int id)
+    public async Task<IssueDto> UpdateIssueAsync(UpdateIssueDto updateIssueDto, string id)
     {
         var existingIssue = await _issueRepository.GetIssueByIdAsync(id);
-        if (existingIssue == null)
-        {
-            return null;
-        }
-        
         IssueMapper.MapForUpdate(updateIssueDto, existingIssue);
-
         var updatedIssue = await _issueRepository.UpdateIssueAsync(existingIssue);
-
         return IssueMapper.MapToDto(updatedIssue);
     }
 
-    public async Task<bool> DeleteIssueAsync(int id)
+    public async Task<bool> DeleteIssueAsync(string id)
     {
         var issue = await _issueRepository.GetIssueByIdAsync(id);
-        if (issue == null)
-        {
-            return false;
-        }
 
         foreach (var commentId in issue.CommentIds)
         {
             await _commentRepository.DeleteCommentAsync(commentId);
         }
+
         return await _issueRepository.DeleteIssueAsync(id);
     }
 }

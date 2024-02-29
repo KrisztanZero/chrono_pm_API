@@ -18,7 +18,7 @@ public class IssueRepository : IIssueRepository
         return await _context.Issues.ToListAsync();
     }
 
-    public async Task<Issue> GetIssueByIdAsync(int id)
+    public async Task<Issue> GetIssueByIdAsync(string id)
     {
         return await _context.Issues.FindAsync(id);
     }
@@ -36,7 +36,7 @@ public class IssueRepository : IIssueRepository
         await _context.SaveChangesAsync();
         return issue;
     }
-    public async Task<bool> DeleteIssueAsync(int id)
+    public async Task<bool> DeleteIssueAsync(string id)
     {
         var issue = await _context.Issues.FindAsync(id);
         if (issue == null) return false;

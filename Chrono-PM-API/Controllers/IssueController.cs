@@ -1,8 +1,10 @@
 ﻿using Chrono_PM_API.Dtos.Issue;
 using Chrono_PM_API.Mappers;
+using Chrono_PM_API.Models;
 using Chrono_PM_API.Services;
 using Chrono_PM_API.Utilities;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Chrono_PM_API.Controllers;
@@ -12,10 +14,12 @@ namespace Chrono_PM_API.Controllers;
 public class IssueController : ControllerBase
 {
     private readonly IIssueService _issueService;
+    private readonly UserManager<AppUser> _userManager;
 
-    public IssueController(IIssueService issueService)
+    public IssueController(IIssueService issueService, UserManager<AppUser> userManager)
     {
         _issueService = issueService ?? throw new ArgumentNullException(nameof(issueService));
+        _userManager = userManager;
     }
 
     [HttpGet]
@@ -26,7 +30,7 @@ public class IssueController : ControllerBase
     }
     
     [HttpGet("{id}")]
-    public async Task<ActionResult<IssueDto>> GetIssue(int id)
+    public async Task<ActionResult<IssueDto>> GetIssue(string id)
     {
         var issue = await _issueService.GetIssueByIdAsync(id);
 
@@ -45,7 +49,7 @@ public class IssueController : ControllerBase
 
         try
         {
-            var currentUserId = UserUtilities.GetCurrentUserId(this);
+            var currentUserId = await UserUtilities.GetCurrentUserIdAsync(_userManager, this);
             var createdIssue = await _issueService.CreateIssueAsync(issue, currentUserId );
             return Ok(createdIssue);
         }
@@ -58,7 +62,7 @@ public class IssueController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult<IssueDto>> UpdateIssueAsync([FromBody] UpdateIssueDto updateIssueDto, int id)
+    public async Task<ActionResult<IssueDto>> UpdateIssueAsync([FromBody] UpdateIssueDto updateIssueDto, string id)
     {
         if (!ModelState.IsValid)
         {
@@ -71,7 +75,7 @@ public class IssueController : ControllerBase
     }
     
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteIssue(int id)
+    public async Task<IActionResult> DeleteIssue(string id)
     {
         var result = await _issueService.DeleteIssueAsync(id);
         if (!result)

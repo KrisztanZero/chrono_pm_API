@@ -6,8 +6,8 @@ namespace Chrono_PM_API.Services;
 public interface IIssueService
 {
     Task<IEnumerable<IssueDto>> GetIssuesAsync();
-    Task<Issue> GetIssueByIdAsync(int id);
+    Task<Issue> GetIssueByIdAsync(string id);
     Task<IssueDto> CreateIssueAsync(CreateIssueDto createIssueDto, string currentUserId);
-    Task<IssueDto> UpdateIssueAsync(UpdateIssueDto updateIssueDto, int id);
-    Task<bool> DeleteIssueAsync(int id);
+    Task<IssueDto> UpdateIssueAsync(UpdateIssueDto updateIssueDto, string id);
+    Task<bool> DeleteIssueAsync(string id);
 }

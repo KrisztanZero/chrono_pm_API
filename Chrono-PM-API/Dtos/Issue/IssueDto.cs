@@ -4,7 +4,7 @@ namespace Chrono_PM_API.Dtos.Issue;
 
 public class IssueDto
 {
-    public int Id { get; set; }
+    public string Id { get; set; }
     public string Title { get; set; }
     public string Project { get; set; }
     public IssueType Type { get; set; }
@@ -17,5 +17,5 @@ public class IssueDto
     public int RemainingEstimate { get; set; }
     public string AuthorId { get; set; }
     public List<string> AssigneeIds { get; set; }
-    public List<int> CommentIds { get; set; }
+    public List<string> CommentIds { get; set; }
 }

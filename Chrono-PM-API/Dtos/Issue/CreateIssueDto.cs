@@ -33,5 +33,5 @@ public class CreateIssueDto
 
     public List<string> AssigneeIds { get; set; } = new List<string>();
 
-    public List<int> CommentIds { get; set; } = new List<int>();
+    public List<string> CommentIds { get; set; } = new List<string>();
 }

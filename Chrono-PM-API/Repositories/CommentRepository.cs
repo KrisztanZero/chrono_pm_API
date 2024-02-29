@@ -18,9 +18,9 @@ public class CommentRepository : ICommentRepository
         return await _context.Comments.ToListAsync();
     }
 
-    public async Task<Comment> GetCommentByIdAsync(int id)
+    public async Task<Comment> GetCommentByIdAsync(string id)
     {
-        return await _context.Comments.FindAsync(id);
+        return await _context.Comments.FindAsync(id) ?? throw new ArgumentException("Comment not found");
     }
 
     public async Task<Comment> CreateCommentAsync(Comment comment)
@@ -30,7 +30,7 @@ public class CommentRepository : ICommentRepository
         return comment;
     }
 
-    public async Task<bool> DeleteCommentAsync(int id)
+    public async Task<bool> DeleteCommentAsync(string id)
     {
         var comment = await _context.Comments.FindAsync(id);
         if (comment == null)

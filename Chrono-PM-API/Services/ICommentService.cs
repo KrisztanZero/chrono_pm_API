@@ -1,11 +1,11 @@
-﻿using Chrono_PM_API.Models;
+﻿using Chrono_PM_API.Dtos.Comment;
 
 namespace Chrono_PM_API.Services;
 
 public interface ICommentService
 {
-    Task<IEnumerable<Comment>> GetCommentsAsync();
-    Task<Comment> GetCommentByIdAsync(int id);
-    Task<Comment> CreateCommentAsync(Comment comment);
-    Task<bool> DeleteCommentAsync(int id);
+    Task<IEnumerable<CommentDto>> GetCommentsAsync();
+    Task<CommentDto> GetCommentByIdAsync(string id);
+    Task<CommentDto> CreateCommentAsync(CreateCommentDto comment, string authorId);
+    Task<bool> DeleteCommentAsync(string id);
 }
