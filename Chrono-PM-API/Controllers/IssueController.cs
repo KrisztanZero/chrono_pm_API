@@ -1,7 +1,7 @@
-﻿using System.Security.Claims;
-using Chrono_PM_API.Dtos.Issue;
+﻿using Chrono_PM_API.Dtos.Issue;
 using Chrono_PM_API.Mappers;
 using Chrono_PM_API.Services;
+using Chrono_PM_API.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,10 +19,9 @@ public class IssueController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<IssueDto>>> GetIssues()
+    public async Task<ActionResult<IEnumerable<IssueDto>>> GetIssuesAsync()
     {
-        var issues = await _issueService.GetIssuesAsync();
-        var issueDtoList = IssueMapper.MapToDto(issues);
+        var issueDtoList = await _issueService.GetIssuesAsync();
         return Ok(issueDtoList);
     }
     
@@ -30,10 +29,6 @@ public class IssueController : ControllerBase
     public async Task<ActionResult<IssueDto>> GetIssue(int id)
     {
         var issue = await _issueService.GetIssueByIdAsync(id);
-        if (issue == null)
-        {
-            return NotFound("Issue not Found");
-        }
 
         var issueDto = IssueMapper.MapToDto(issue);
 
@@ -43,44 +38,34 @@ public class IssueController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<IssueDto>> CreateIssue([FromBody] CreateIssueDto issue)
     {
-        if (issue == null)
-        {
-            return BadRequest("The request body cannot be null.");
-        }
-
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
 
-        var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        if (currentUserId == null)
+        try
         {
-            return NotFound("User not found");
+            var currentUserId = UserUtilities.GetCurrentUserId(this);
+            var createdIssue = await _issueService.CreateIssueAsync(issue, currentUserId );
+            return Ok(createdIssue);
         }
-
-        var createdIssue = await _issueService.CreateIssueAsync(issue, currentUserId );
-        return Ok(createdIssue);
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+        
     }
 
     [HttpPut("{id}")]
     public async Task<ActionResult<IssueDto>> UpdateIssueAsync([FromBody] UpdateIssueDto updateIssueDto, int id)
     {
-        if (updateIssueDto == null)
-        {
-            return BadRequest("The request body cannot be null.");
-        }
-
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
 
         var updatedIssue = await _issueService.UpdateIssueAsync(updateIssueDto, id);
-        if (updatedIssue == null)
-        {
-            return NotFound("Issue not found");
-        }
 
         return Ok(updatedIssue);
     }

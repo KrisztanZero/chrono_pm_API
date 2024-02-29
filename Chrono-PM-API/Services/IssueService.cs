@@ -8,15 +8,19 @@ namespace Chrono_PM_API.Services;
 public class IssueService : IIssueService
 {
     private readonly IIssueRepository _issueRepository;
+    private readonly ICommentRepository _commentRepository;
 
-    public IssueService(IIssueRepository issueRepository)
+    public IssueService(IIssueRepository issueRepository, ICommentRepository commentRepository)
     {
         _issueRepository = issueRepository;
+        _commentRepository = commentRepository;
     }
 
-    public async Task<IEnumerable<Issue>> GetIssuesAsync()
+    public async Task<IEnumerable<IssueDto>> GetIssuesAsync()
     {
-        return await _issueRepository.GetIssuesAsync();
+        var issues = await _issueRepository.GetIssuesAsync();
+        var issueDtoList = IssueMapper.MapToDto(issues);
+        return issueDtoList;
     }
 
     public async Task<Issue> GetIssueByIdAsync(int id)
@@ -49,6 +53,16 @@ public class IssueService : IIssueService
 
     public async Task<bool> DeleteIssueAsync(int id)
     {
+        var issue = await _issueRepository.GetIssueByIdAsync(id);
+        if (issue == null)
+        {
+            return false;
+        }
+
+        foreach (var commentId in issue.CommentIds)
+        {
+            await _commentRepository.DeleteCommentAsync(commentId);
+        }
         return await _issueRepository.DeleteIssueAsync(id);
     }
 }
