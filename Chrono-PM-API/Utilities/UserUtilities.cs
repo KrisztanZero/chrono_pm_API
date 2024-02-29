@@ -1,18 +1,20 @@
-﻿using System.Security.Claims;
+﻿using Chrono_PM_API.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Chrono_PM_API.Utilities;
-
-public static class UserUtilities
+namespace Chrono_PM_API.Utilities
 {
-    public static string GetCurrentUserId(ControllerBase controller)
+    public static class UserUtilities
     {
-        var currentUserId = controller.User.FindFirstValue(ClaimTypes.NameIdentifier);
-        if (string.IsNullOrEmpty(currentUserId))
+        public static async Task<string> GetCurrentUserIdAsync(UserManager<AppUser> userManager, ControllerBase controller)
         {
-            throw new ArgumentException("Invalid or missing user identifier.", nameof(currentUserId));
+            var user = await userManager.GetUserAsync(controller.User);
+            if (user == null)
+            {
+                throw new ArgumentException("Invalid or missing user.");
+            }
+
+            return user.Id;
         }
-        return currentUserId;
     }
-    
 }
