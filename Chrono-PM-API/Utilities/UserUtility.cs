@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Chrono_PM_API.Utilities
 {
-    public static class UserUtilities
+    public static class UserUtility
     {
         public static async Task<string> GetCurrentUserIdAsync(UserManager<AppUser> userManager, ControllerBase controller)
         {

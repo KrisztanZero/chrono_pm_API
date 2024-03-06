@@ -45,7 +45,7 @@ public class CommentController : ControllerBase
 
         try
         {
-            var currentUserId = await UserUtilities.GetCurrentUserIdAsync(_userManager, this);
+            var currentUserId = await UserUtility.GetCurrentUserIdAsync(_userManager, this);
             var createdComment = await _commentService.CreateCommentAsync(comment, currentUserId);
             return Ok(createdComment);
         }

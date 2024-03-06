@@ -45,7 +45,7 @@ public class IssueController : ControllerBase
 
         try
         {
-            var currentUserId = await UserUtilities.GetCurrentUserIdAsync(_userManager, this);
+            var currentUserId = await UserUtility.GetCurrentUserIdAsync(_userManager, this);
             var createdIssue = await _issueService.CreateIssueAsync(issue, currentUserId );
             return Ok(createdIssue);
         }
