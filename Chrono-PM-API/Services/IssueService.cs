@@ -1,7 +1,10 @@
 ﻿using Chrono_PM_API.Dtos.Issue;
+using Chrono_PM_API.Enums;
 using Chrono_PM_API.Mappers;
 using Chrono_PM_API.Models;
 using Chrono_PM_API.Repositories;
+using Chrono_PM_API.Utilities;
+using Microsoft.AspNetCore.Identity;
 
 namespace Chrono_PM_API.Services;
 
@@ -9,11 +12,13 @@ public class IssueService : IIssueService
 {
     private readonly IIssueRepository _issueRepository;
     private readonly ICommentRepository _commentRepository;
+    private readonly UserManager<AppUser> _userManager;
 
-    public IssueService(IIssueRepository issueRepository, ICommentRepository commentRepository)
+    public IssueService(IIssueRepository issueRepository, ICommentRepository commentRepository, UserManager<AppUser> userManager)
     {
         _issueRepository = issueRepository;
         _commentRepository = commentRepository;
+        _userManager = userManager;
     }
 
     public async Task<IEnumerable<IssueDto>> GetIssuesAsync()
@@ -34,6 +39,15 @@ public class IssueService : IIssueService
     {
         var issue = IssueMapper.MapToModel(createIssueDto, currentUserId);
         await _issueRepository.CreateIssueAsync(issue);
+        var issueId = issue.Id;
+        
+        await UserUtility.AddEntityToUserListAsync(
+            _userManager,
+            currentUserId,
+            issueId,
+            EntityType.Issue
+            );
+        
         var issueDto = IssueMapper.MapToDto(issue);
         return issueDto;
     }
@@ -55,6 +69,15 @@ public class IssueService : IIssueService
             await _commentRepository.DeleteCommentAsync(commentId);
         }
 
+        var userId = issue.AuthorId;
+
+        await UserUtility.RemoveEntityFromUserListAsync(
+            _userManager,
+            userId,
+            id,
+            EntityType.Issue
+            );
+        
         return await _issueRepository.DeleteIssueAsync(id);
     }
 }
