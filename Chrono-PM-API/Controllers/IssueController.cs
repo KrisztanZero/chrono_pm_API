@@ -1,5 +1,4 @@
 ﻿using Chrono_PM_API.Dtos.Issue;
-using Chrono_PM_API.Mappers;
 using Chrono_PM_API.Models;
 using Chrono_PM_API.Services;
 using Chrono_PM_API.Utilities;
@@ -33,10 +32,7 @@ public class IssueController : ControllerBase
     public async Task<ActionResult<IssueDto>> GetIssue(string id)
     {
         var issue = await _issueService.GetIssueByIdAsync(id);
-
-        var issueDto = IssueMapper.MapToDto(issue);
-
-        return Ok(issueDto);
+        return Ok(issue);
     }
     
     [HttpPost]

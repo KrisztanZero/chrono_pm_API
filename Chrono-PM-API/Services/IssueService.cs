@@ -23,9 +23,11 @@ public class IssueService : IIssueService
         return issueDtoList;
     }
 
-    public async Task<Issue> GetIssueByIdAsync(string id)
+    public async Task<IssueDto> GetIssueByIdAsync(string id)
     {
-        return await _issueRepository.GetIssueByIdAsync(id);
+        var issue = await _issueRepository.GetIssueByIdAsync(id);
+        var issueDto = IssueMapper.MapToDto(issue);
+        return issueDto;
     }
 
     public async Task<IssueDto> CreateIssueAsync(CreateIssueDto createIssueDto, string currentUserId)
