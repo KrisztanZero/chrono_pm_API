@@ -11,6 +11,8 @@ public static class UserMapper
         {
             Id = user.Id,
             Username = user.UserName,
+            Firstname = user.Firstname,
+            Lastname = user.Lastname,
             Email = user.Email,
             Phonenumber = user.PhoneNumber,
             IssueIds = user.IssueIds,
@@ -29,6 +31,8 @@ public static class UserMapper
         {
             Id = userDto.Id,
             UserName = userDto.Username,
+            Firstname = userDto.Firstname,
+            Lastname = userDto.Lastname,
             Email = userDto.Email,
             PhoneNumber = userDto.Phonenumber,
             IssueIds = userDto.IssueIds,
@@ -41,6 +45,16 @@ public static class UserMapper
         if (updateUser.Username != null)
         {
             user.UserName = updateUser.Username;
+        }
+        
+        if (updateUser.Firstname != null)
+        {
+            user.Firstname = updateUser.Firstname;
+        }
+        
+        if (updateUser.Lastname != null)
+        {
+            user.Lastname = updateUser.Lastname;
         }
 
         if (updateUser.Email != null)
