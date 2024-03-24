@@ -8,6 +8,9 @@ public class AppUserDto
     public string Username { get; set; }
     public string Email { get; set; }
     public string Phonenumber { get; set; }
+    public List<string> ProjectIds { get; set; }
+    public List<string> NoteIds { get; set; }
     public List<string> IssueIds { get; set; }
     public List<string> CommentIds { get; set; }
+    public DateTime CreatedAt { get; set; }
 }

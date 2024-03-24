@@ -3,6 +3,7 @@
 public enum EntityType
 {
     Project,
+    Note,
     Issue,
     Comment,
 }

@@ -15,8 +15,11 @@ public static class UserMapper
             Lastname = user.Lastname,
             Email = user.Email,
             Phonenumber = user.PhoneNumber,
+            ProjectIds = user.ProjectIds,
+            NoteIds = user.NoteIds,
             IssueIds = user.IssueIds,
-            CommentIds = user.CommentIds
+            CommentIds = user.CommentIds,
+            CreatedAt = user.CreatedAt,
         };
     }
 
@@ -35,6 +38,8 @@ public static class UserMapper
             Lastname = userDto.Lastname,
             Email = userDto.Email,
             PhoneNumber = userDto.Phonenumber,
+            ProjectIds = userDto.ProjectIds,
+            NoteIds = userDto.NoteIds,
             IssueIds = userDto.IssueIds,
             CommentIds = userDto.CommentIds
         };
@@ -42,39 +47,14 @@ public static class UserMapper
 
     public static void MapForUpdate(UpdateUserDto updateUser, AppUser user)
     {
-        if (updateUser.Username != null)
-        {
-            user.UserName = updateUser.Username;
-        }
-        
-        if (updateUser.Firstname != null)
-        {
-            user.Firstname = updateUser.Firstname;
-        }
-        
-        if (updateUser.Lastname != null)
-        {
-            user.Lastname = updateUser.Lastname;
-        }
-
-        if (updateUser.Email != null)
-        {
-            user.Email = updateUser.Email;
-        }
-
-        if (updateUser.Phonenumber != null)
-        {
-            user.PhoneNumber = updateUser.Phonenumber;
-        }
-
-        if (updateUser.IssueIds != null)
-        {
-            user.IssueIds = updateUser.IssueIds;
-        }
-
-        if (updateUser.CommentIds != null)
-        {
-            user.CommentIds = updateUser.CommentIds;
-        }
+        user.UserName = updateUser.Username ?? user.UserName;
+        user.Firstname = updateUser.Firstname ?? user.Firstname;
+        user.Lastname = updateUser.Lastname ?? user.Lastname;
+        user.Email = updateUser.Email ?? user.Email;
+        user.PhoneNumber = updateUser.Phonenumber ?? user.PhoneNumber;
+        user.ProjectIds = updateUser.ProjetIds ?? user.ProjectIds;
+        user.NoteIds = updateUser.NoteIds ?? user.NoteIds;
+        user.IssueIds = updateUser.IssueIds ?? user.IssueIds;
+        user.CommentIds = updateUser.CommentIds ?? user.CommentIds;
     }
 }

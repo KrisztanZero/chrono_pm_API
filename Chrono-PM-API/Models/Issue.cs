@@ -6,6 +6,7 @@ namespace Chrono_PM_API.Models;
 
 public class Issue
 {
+    [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public string Id { get; init; }
     [MaxLength(50)]

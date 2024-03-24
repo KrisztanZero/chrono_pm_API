@@ -33,6 +33,9 @@ namespace Chrono_PM_API.Utilities
                 case EntityType.Project:
                     user.ProjectIds.Add(entityId);
                     break;
+                case EntityType.Note:
+                    user.NoteIds.Add(entityId);
+                    break;
                 case EntityType.Issue:
                     user.IssueIds.Add(entityId);
                     break;
@@ -64,6 +67,9 @@ namespace Chrono_PM_API.Utilities
             {
                 case EntityType.Project:
                     user.ProjectIds.Remove(entityId);
+                    break;
+                case EntityType.Note:
+                    user.NoteIds.Remove(entityId);
                     break;
                 case EntityType.Issue:
                     user.IssueIds.Remove(entityId);
