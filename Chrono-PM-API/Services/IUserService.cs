@@ -8,4 +8,5 @@ public interface IUserService
     Task<AppUserDto> GetUserByIdAsync(string id);
     Task<AppUserDto> UpdateUserAsync(string id, UpdateUserDto updateUser);
     Task<bool> DeleteUserAsync(string id);
+    Task<bool> ChangeUserActivationStatusAsync(string id, bool status);
 }

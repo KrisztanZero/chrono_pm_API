@@ -65,4 +65,40 @@ public class UserController : ControllerBase
             return StatusCode(500, $"An error occurred while deleting the user: {ex.Message}");
         }
     }
+    
+    [HttpPut("activate/{id}")]
+    public async Task<IActionResult> ActivateUserAsync(string id)
+    {
+        try
+        {
+            var result = await _userService.ChangeUserActivationStatusAsync(id, true);
+            return Ok(result);
+        }
+        catch (ArgumentException ex)
+        {
+            return NotFound(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"An error occurred while activating the user: {ex.Message}");
+        }
+    }
+
+    [HttpPut("deactivate/{id}")]
+    public async Task<IActionResult> DeactivateUserAsync(string id)
+    {
+        try
+        {
+            var result = await _userService.ChangeUserActivationStatusAsync(id, false);
+            return Ok(result);
+        }
+        catch (ArgumentException ex)
+        {
+            return NotFound(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"An error occurred while deactivating the user: {ex.Message}");
+        }
+    }
 }

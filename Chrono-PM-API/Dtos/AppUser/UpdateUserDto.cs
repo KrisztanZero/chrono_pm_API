@@ -11,4 +11,5 @@ public class UpdateUserDto
     public List<string> NoteIds { get; set; }
     public List<string> IssueIds { get; set; }
     public List<string> CommentIds { get; set; }
+    public bool IsActive { get; set; }
 }

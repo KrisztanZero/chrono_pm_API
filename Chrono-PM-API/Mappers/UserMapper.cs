@@ -20,6 +20,7 @@ public static class UserMapper
             IssueIds = user.IssueIds,
             CommentIds = user.CommentIds,
             CreatedAt = user.CreatedAt,
+            IsActive = user.IsActive,
         };
     }
 
@@ -41,7 +42,8 @@ public static class UserMapper
             ProjectIds = userDto.ProjectIds,
             NoteIds = userDto.NoteIds,
             IssueIds = userDto.IssueIds,
-            CommentIds = userDto.CommentIds
+            CommentIds = userDto.CommentIds,
+            IsActive = userDto.IsActive,
         };
     }
 
