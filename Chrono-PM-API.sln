@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chrono-PM-API", "Chrono-PM-API\Chrono-PM-API.csproj", "{15CEA0DB-2011-4F41-9E69-6E78C166EB5A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chrono-PM-Test", "Chrono-PM-Test\Chrono-PM-Test.csproj", "{4A4CA243-837C-412B-9699-0D7063A8A025}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{15CEA0DB-2011-4F41-9E69-6E78C166EB5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15CEA0DB-2011-4F41-9E69-6E78C166EB5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15CEA0DB-2011-4F41-9E69-6E78C166EB5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A4CA243-837C-412B-9699-0D7063A8A025}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A4CA243-837C-412B-9699-0D7063A8A025}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A4CA243-837C-412B-9699-0D7063A8A025}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A4CA243-837C-412B-9699-0D7063A8A025}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
