@@ -5,13 +5,18 @@ namespace Chrono_PM_API.Dtos.Issue;
 
 public class CreateIssueDto
 {
+    [MaxLength(450)]
+    public string? AuthorId { get; set; }
+    [MaxLength(450)]
+    public string? ProjectId { get; set; }
+
     [Required(ErrorMessage = "Title is required")]
     [MaxLength(50)]
-    public string Title { get; set; }
+    public string Title { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Project is required")]
     [MaxLength(50)]
-    public string Project { get; set; }
+    public string Project { get; set; } = string.Empty;
 
     public IssueType? Type { get; set; }
 
@@ -28,9 +33,7 @@ public class CreateIssueDto
     public int? OriginalEstimate { get; set; }
 
     public int? RemainingEstimate { get; set; }
-
-    public string AuthorId { get; set; }
-
+    
     public List<string> AssigneeIds { get; set; } = new List<string>();
 
     public List<string> CommentIds { get; set; } = new List<string>();

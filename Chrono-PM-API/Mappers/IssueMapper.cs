@@ -45,6 +45,7 @@ public static class IssueMapper
             OriginalEstimate = createDto.OriginalEstimate ?? default,
             RemainingEstimate = createDto.RemainingEstimate ?? default,
             AuthorId = authorId,
+            ProjectId = createDto.ProjectId,
             AssigneeIds = createDto.AssigneeIds,
             CommentIds = createDto.CommentIds
         };
