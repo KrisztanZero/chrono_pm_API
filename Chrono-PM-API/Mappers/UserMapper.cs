@@ -53,8 +53,8 @@ public static class UserMapper
         user.Firstname = updateUser.Firstname ?? user.Firstname;
         user.Lastname = updateUser.Lastname ?? user.Lastname;
         user.Email = updateUser.Email ?? user.Email;
-        user.PhoneNumber = updateUser.Phonenumber ?? user.PhoneNumber;
-        user.ProjectIds = updateUser.ProjetIds ?? user.ProjectIds;
+        user.PhoneNumber = updateUser.PhoneNumber ?? user.PhoneNumber;
+        user.ProjectIds = updateUser.ProjectIds ?? user.ProjectIds;
         user.NoteIds = updateUser.NoteIds ?? user.NoteIds;
         user.IssueIds = updateUser.IssueIds ?? user.IssueIds;
         user.CommentIds = updateUser.CommentIds ?? user.CommentIds;
