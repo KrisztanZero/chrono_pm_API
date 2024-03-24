@@ -4,7 +4,7 @@ namespace Chrono_PM_API.Repositories;
 
 public interface INoteRepository
 {
-    Task<IEnumerable<Note>> GetNoteAsync();
+    Task<IEnumerable<Note>> GetNotesAsync();
     Task<Note> GetNoteByIdAsync(string id);
     Task<Note> CreateNoteAsync(Note note);
     Task<Note> UpdateNoteAsync(Note note);

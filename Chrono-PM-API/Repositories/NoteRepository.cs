@@ -13,7 +13,7 @@ public class NoteRepository : INoteRepository
         _dbContext = dbContext;
     }
 
-    public async Task<IEnumerable<Note>> GetNoteAsync()
+    public async Task<IEnumerable<Note>> GetNotesAsync()
     {
         return await _dbContext.Notes.ToListAsync();
     }
