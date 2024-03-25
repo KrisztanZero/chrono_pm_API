@@ -1,5 +1,4 @@
 ﻿using Chrono_PM_API.Dtos.Issue;
-using Chrono_PM_API.Models;
 
 namespace Chrono_PM_API.Services;
 

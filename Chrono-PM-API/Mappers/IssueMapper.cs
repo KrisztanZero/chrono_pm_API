@@ -11,7 +11,7 @@ public static class IssueMapper
         {
             Id = issue.Id,
             Title = issue.Title,
-            Project = issue.Project,
+            ProjectId = issue.ProjectId,
             Type = issue.Type,
             Priority = issue.Priority,
             Summary = issue.Summary,
@@ -37,7 +37,8 @@ public static class IssueMapper
         return new Issue
         {
             Title = createDto.Title,
-            Project = createDto.Project,
+            AuthorId = authorId,
+            ProjectId = createDto.ProjectId,
             Type = createDto.Type,
             Priority = createDto.Priority,
             Summary = createDto.Summary,
@@ -45,8 +46,6 @@ public static class IssueMapper
             DueDateTime = createDto.DueDateTime,
             OriginalEstimate = createDto.OriginalEstimate ?? default,
             RemainingEstimate = createDto.RemainingEstimate ?? default,
-            AuthorId = authorId,
-            ProjectId = createDto.ProjectId,
             AssigneeIds = createDto.AssigneeIds,
             CommentIds = createDto.CommentIds
         };
@@ -55,7 +54,6 @@ public static class IssueMapper
     public static void MapForUpdate(UpdateIssueDto updateDto, Issue existingIssue)
     {
         existingIssue.Title = updateDto.Title ?? existingIssue.Title;
-        existingIssue.Project = updateDto.Project ?? existingIssue.Project;
         existingIssue.Type = updateDto.Type ?? existingIssue.Type;
         existingIssue.Priority = updateDto.Priority ?? existingIssue.Priority;
         existingIssue.Summary = updateDto.Summary ?? existingIssue.Summary;

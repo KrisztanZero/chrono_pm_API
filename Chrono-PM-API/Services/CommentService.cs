@@ -65,10 +65,13 @@ public class CommentService : ICommentService
             await _commentRepository.DeleteCommentAsync(id);
 
             var issue = await _issueRepository.GetIssueByIdAsync(comment.IssueId);
+            if (issue != null)
+            {
+                issue.CommentIds.Remove(id);
+                await _issueRepository.UpdateIssueAsync(issue);
+            }
 
-            issue.CommentIds.Remove(id);
-
-            await _issueRepository.UpdateIssueAsync(issue);
+            
 
             var userId = comment.AuthorId;
             await UserUtility.RemoveEntityFromUserListAsync(

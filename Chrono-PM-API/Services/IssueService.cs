@@ -12,14 +12,16 @@ public class IssueService : IIssueService
 {
     private readonly IIssueRepository _issueRepository;
     private readonly ICommentRepository _commentRepository;
+    private readonly IProjectRepository _projectRepository;
     private readonly UserManager<AppUser> _userManager;
 
     public IssueService(IIssueRepository issueRepository, ICommentRepository commentRepository,
-        UserManager<AppUser> userManager)
+        UserManager<AppUser> userManager, IProjectRepository projectRepository)
     {
         _issueRepository = issueRepository;
         _commentRepository = commentRepository;
         _userManager = userManager;
+        _projectRepository = projectRepository;
     }
 
     public async Task<IEnumerable<IssueDto>> GetIssuesAsync()
@@ -41,6 +43,13 @@ public class IssueService : IIssueService
         var issue = IssueMapper.MapToModel(createIssueDto, currentUserId);
         await _issueRepository.CreateIssueAsync(issue);
         var issueId = issue.Id;
+        
+        var project = await _projectRepository.GetProjectByIdAsync(createIssueDto.ProjectId);
+        if (project != null)
+        {
+            project.IssueIds.Add(issueId);
+            await _projectRepository.UpdateProjectAsync(project);
+        }
 
         await UserUtility.AddEntityToUserListAsync(
             _userManager,
@@ -74,6 +83,13 @@ public class IssueService : IIssueService
         foreach (var commentId in issue.CommentIds)
         {
             await _commentRepository.DeleteCommentAsync(commentId);
+        }
+
+        var project = await _projectRepository.GetProjectByIdAsync(issue.ProjectId);
+        if (project != null)
+        {
+            project.IssueIds.Remove(id);
+            await _projectRepository.UpdateProjectAsync(project);
         }
 
         var userId = issue.AuthorId;

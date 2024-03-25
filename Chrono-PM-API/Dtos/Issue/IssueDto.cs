@@ -6,8 +6,8 @@ public class IssueDto
 {
     public string Id { get; set; }
     public string AuthorId { get; set; }
+    public string ProjectId { get; set; }
     public string Title { get; set; }
-    public string Project { get; set; }
     public IssueType Type { get; set; }
     public IssuePriority Priority { get; set; }
     public string Summary { get; set; }

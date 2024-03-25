@@ -20,7 +20,6 @@ public class Issue
     public string? ProjectId { get; init; }
 
     [MaxLength(50)] public string Title { get; set; } = string.Empty;
-    [MaxLength(50)] public string Project { get; set; } = string.Empty;
     public IssueType Type { get; set; }
     public IssuePriority Priority { get; set; }
     [MaxLength(50)] public string Summary { get; set; } = string.Empty;

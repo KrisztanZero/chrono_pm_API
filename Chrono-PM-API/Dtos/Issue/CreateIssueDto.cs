@@ -6,15 +6,11 @@ namespace Chrono_PM_API.Dtos.Issue;
 public class CreateIssueDto
 {
     [MaxLength(450)] public string AuthorId { get; set; }
-    [MaxLength(450)] public string ProjectId { get; set; }
+    [MaxLength(450)] public string ProjectId { get; init; }
 
     [Required(ErrorMessage = "Title is required")]
     [MaxLength(50)]
     public string Title { get; set; } = string.Empty;
-
-    [Required(ErrorMessage = "Project is required")]
-    [MaxLength(50)]
-    public string Project { get; set; } = string.Empty;
 
     public IssueType Type { get; set; }
 

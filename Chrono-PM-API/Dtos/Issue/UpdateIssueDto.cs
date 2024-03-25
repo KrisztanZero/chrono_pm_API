@@ -6,7 +6,6 @@ namespace Chrono_PM_API.Dtos.Issue;
 public class UpdateIssueDto
 {
     [MaxLength(50)] public string? Title { get; set; }
-    [MaxLength(50)] public string? Project { get; set; }
     public IssueType? Type { get; set; }
     public IssuePriority? Priority { get; set; }
     [MaxLength(50)] public string? Summary { get; set; }
