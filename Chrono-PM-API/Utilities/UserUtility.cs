@@ -9,7 +9,8 @@ namespace Chrono_PM_API.Utilities
 {
     public static class UserUtility
     {
-        public static async Task<string> GetCurrentUserIdAsync(UserManager<AppUser> userManager, ControllerBase controller)
+        public static async Task<string> GetCurrentUserIdAsync(UserManager<AppUser> userManager,
+            ControllerBase controller)
         {
             var user = await userManager.GetUserAsync(controller.User);
             if (user == null)
@@ -19,8 +20,9 @@ namespace Chrono_PM_API.Utilities
 
             return user.Id;
         }
-        
-        public static async Task<AppUserDto> AddEntityToUserListAsync(UserManager<AppUser> userManager, string userId, string entityId, EntityType entityType)
+
+        public static async Task<AppUserDto> AddEntityToUserListAsync(UserManager<AppUser> userManager, string userId,
+            string entityId, EntityType entityType)
         {
             var user = await userManager.FindByIdAsync(userId);
             if (user == null)
@@ -28,23 +30,21 @@ namespace Chrono_PM_API.Utilities
                 throw new ArgumentException($"User not found with id: {userId}");
             }
 
-            switch (entityType)
+            var targetList = entityType switch
             {
-                case EntityType.Project:
-                    user.ProjectIds.Add(entityId);
-                    break;
-                case EntityType.Note:
-                    user.NoteIds.Add(entityId);
-                    break;
-                case EntityType.Issue:
-                    user.IssueIds.Add(entityId);
-                    break;
-                case EntityType.Comment:
-                    user.CommentIds.Add(entityId);
-                    break;
-                default:
-                    throw new ArgumentException($"Invalid entity type: {entityType}");
+                EntityType.Project => user.ProjectIds,
+                EntityType.Note => user.NoteIds,
+                EntityType.Issue => user.IssueIds,
+                EntityType.Comment => user.CommentIds,
+                _ => throw new ArgumentException($"Invalid entity type: {entityType}")
+            };
+
+            if (targetList.Contains(entityId))
+            {
+                return UserMapper.MapToDto(user);
             }
+
+            targetList.Add(entityId);
 
             var result = await userManager.UpdateAsync(user);
             if (!result.Succeeded)
@@ -55,7 +55,8 @@ namespace Chrono_PM_API.Utilities
             return UserMapper.MapToDto(user);
         }
 
-        public static async Task<bool> RemoveEntityFromUserListAsync(UserManager<AppUser> userManager, string userId, string entityId, EntityType entityType)
+        public static async Task<bool> RemoveEntityFromUserListAsync(UserManager<AppUser> userManager, string userId,
+            string entityId, EntityType entityType)
         {
             var user = await userManager.FindByIdAsync(userId);
             if (user == null)
@@ -63,23 +64,21 @@ namespace Chrono_PM_API.Utilities
                 throw new ArgumentException($"User not found with id: {userId}");
             }
 
-            switch (entityType)
+            var targetList = entityType switch
             {
-                case EntityType.Project:
-                    user.ProjectIds.Remove(entityId);
-                    break;
-                case EntityType.Note:
-                    user.NoteIds.Remove(entityId);
-                    break;
-                case EntityType.Issue:
-                    user.IssueIds.Remove(entityId);
-                    break;
-                case EntityType.Comment:
-                    user.CommentIds.Remove(entityId);
-                    break;
-                default:
-                    throw new ArgumentException($"Invalid entity type: {entityType}");
+                EntityType.Project => user.ProjectIds,
+                EntityType.Note => user.NoteIds,
+                EntityType.Issue => user.IssueIds,
+                EntityType.Comment => user.CommentIds,
+                _ => throw new ArgumentException($"Invalid entity type: {entityType}")
+            };
+
+            if (!targetList.Contains(entityId))
+            {
+                return false;
             }
+
+            targetList.Remove(entityId);
 
             var result = await userManager.UpdateAsync(user);
             if (!result.Succeeded)

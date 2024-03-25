@@ -15,7 +15,8 @@ public class ProjectService : IProjectService
     private readonly IIssueRepository _issueRepository;
     private readonly UserManager<AppUser> _userManager;
 
-    public ProjectService(IProjectRepository projectRepository, INoteRepository noteRepository, UserManager<AppUser> userManager, IIssueRepository issueRepository)
+    public ProjectService(IProjectRepository projectRepository, INoteRepository noteRepository,
+        UserManager<AppUser> userManager, IIssueRepository issueRepository)
     {
         _projectRepository = projectRepository;
         _noteRepository = noteRepository;
@@ -59,6 +60,13 @@ public class ProjectService : IProjectService
         var existingProject = await _projectRepository.GetProjectByIdAsync(id);
         ProjectMapper.MapForUpdate(updateProjectDto, existingProject);
         var updateProject = await _projectRepository.UpdateProjectAsync(existingProject);
+
+        foreach (var assigneeId in existingProject.AssigneeIds)
+        {
+            await UserUtility.AddEntityToUserListAsync(_userManager, assigneeId, existingProject.Id,
+                EntityType.Project);
+        }
+
         return ProjectMapper.MapToDto(updateProject);
     }
 

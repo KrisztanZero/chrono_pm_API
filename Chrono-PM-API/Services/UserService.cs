@@ -30,6 +30,7 @@ public class UserService : IUserService
         {
             throw new ArgumentException($"User not found with id: {id}");
         }
+
         var userDto = UserMapper.MapToDto(user);
         return userDto;
     }
@@ -41,6 +42,7 @@ public class UserService : IUserService
         {
             throw new ArgumentException($"User not found with id: {id}");
         }
+
         UserMapper.MapForUpdate(updateUserDto, existingUser);
         var result = await _userManager.UpdateAsync(existingUser);
         if (!result.Succeeded)
@@ -53,6 +55,7 @@ public class UserService : IUserService
         {
             throw new Exception($"Updated user not found: {id}");
         }
+
         return UserMapper.MapToDto(updatedUser);
     }
 
@@ -63,12 +66,12 @@ public class UserService : IUserService
         {
             throw new ArgumentException($"User not found with id: {id}");
         }
-        
+
         if (user.UserName == "DeletedUser")
         {
             await _userManager.DeleteAsync(user);
         }
-        
+
         if (user.IsActive)
         {
             user.IsActive = false;
@@ -94,9 +97,10 @@ public class UserService : IUserService
 
             return true;
         }
+
         return true;
     }
-    
+
     public async Task<bool> ChangeUserActivationStatusAsync(string id, bool status)
     {
         var user = await _userManager.FindByIdAsync(id);
@@ -109,7 +113,7 @@ public class UserService : IUserService
         {
             throw new ArgumentException($"User status already {(user.IsActive ? "Active" : "Inactive")}");
         }
-        
+
         user.IsActive = status;
 
         var result = await _userManager.UpdateAsync(user);
@@ -117,7 +121,7 @@ public class UserService : IUserService
         {
             throw new Exception($"Failed to update user: {result.Errors}");
         }
-        
+
         return user.IsActive;
     }
 }

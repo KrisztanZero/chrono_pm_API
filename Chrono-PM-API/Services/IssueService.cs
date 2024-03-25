@@ -14,7 +14,8 @@ public class IssueService : IIssueService
     private readonly ICommentRepository _commentRepository;
     private readonly UserManager<AppUser> _userManager;
 
-    public IssueService(IIssueRepository issueRepository, ICommentRepository commentRepository, UserManager<AppUser> userManager)
+    public IssueService(IIssueRepository issueRepository, ICommentRepository commentRepository,
+        UserManager<AppUser> userManager)
     {
         _issueRepository = issueRepository;
         _commentRepository = commentRepository;
@@ -40,14 +41,14 @@ public class IssueService : IIssueService
         var issue = IssueMapper.MapToModel(createIssueDto, currentUserId);
         await _issueRepository.CreateIssueAsync(issue);
         var issueId = issue.Id;
-        
+
         await UserUtility.AddEntityToUserListAsync(
             _userManager,
             currentUserId,
             issueId,
             EntityType.Issue
-            );
-        
+        );
+
         var issueDto = IssueMapper.MapToDto(issue);
         return issueDto;
     }
@@ -57,6 +58,12 @@ public class IssueService : IIssueService
         var existingIssue = await _issueRepository.GetIssueByIdAsync(id);
         IssueMapper.MapForUpdate(updateIssueDto, existingIssue);
         var updatedIssue = await _issueRepository.UpdateIssueAsync(existingIssue);
+        foreach (var assigneeId in existingIssue.AssigneeIds)
+        {
+            await UserUtility.AddEntityToUserListAsync(_userManager, assigneeId, existingIssue.Id,
+                EntityType.Issue);
+        }
+
         return IssueMapper.MapToDto(updatedIssue);
     }
 
@@ -76,8 +83,8 @@ public class IssueService : IIssueService
             userId,
             id,
             EntityType.Issue
-            );
-        
+        );
+
         return await _issueRepository.DeleteIssueAsync(id);
     }
 }
