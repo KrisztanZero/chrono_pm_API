@@ -57,17 +57,17 @@ public static class ProjectMapper
         project.OriginalEstimate = updateProjectDto.OriginalEstimate ?? project.OriginalEstimate;
         project.RemainingEstimate = updateProjectDto.RemainingEstimate ?? project.RemainingEstimate;
 
-        if (updateProjectDto.AssigneeIds != null && updateProjectDto.AssigneeIds.Count != 0)
+        if (updateProjectDto.AssigneeIds != null && updateProjectDto.AssigneeIds.Any())
         {
             project.AssigneeIds.AddRange(updateProjectDto.AssigneeIds.Except(project.AssigneeIds));
         }
 
-        if (updateProjectDto.IssueIds != null && updateProjectDto.IssueIds.Count != 0)
+        if (updateProjectDto.IssueIds != null && updateProjectDto.IssueIds.Any())
         {
             project.IssueIds.AddRange(updateProjectDto.IssueIds.Except(project.IssueIds));
         }
 
-        if (updateProjectDto.NoteIds != null && updateProjectDto.NoteIds.Count != 0)
+        if (updateProjectDto.NoteIds != null && updateProjectDto.NoteIds.Any())
         {
             project.NoteIds.AddRange(updateProjectDto.NoteIds.Except(project.NoteIds));
         }
