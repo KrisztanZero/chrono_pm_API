@@ -63,8 +63,16 @@ public static class IssueMapper
         existingIssue.DueDateTime = updateDto.DueDateTime ?? existingIssue.DueDateTime;
         existingIssue.OriginalEstimate = updateDto.OriginalEstimate ?? existingIssue.OriginalEstimate;
         existingIssue.RemainingEstimate = updateDto.RemainingEstimate ?? existingIssue.RemainingEstimate;
-        existingIssue.AssigneeIds = updateDto.AssigneeIds ?? existingIssue.AssigneeIds;
-        existingIssue.CommentIds = updateDto.CommentIds ?? existingIssue.CommentIds;
+        if (updateDto.AssigneeIds != null && updateDto.AssigneeIds.Any())
+        {
+            existingIssue.AssigneeIds.AddRange(updateDto.AssigneeIds.Except(existingIssue.AssigneeIds));
+        }
+
+        if (updateDto.CommentIds != null && updateDto.CommentIds.Any())
+        {
+            existingIssue.CommentIds.AddRange(updateDto.CommentIds.Except(existingIssue.CommentIds));
+        }
+
         existingIssue.UpdatedAt = DateTime.Now;
     }
 }

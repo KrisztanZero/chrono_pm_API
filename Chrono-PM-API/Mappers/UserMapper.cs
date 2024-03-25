@@ -55,10 +55,26 @@ public static class UserMapper
         user.Lastname = updateUser.Lastname ?? user.Lastname;
         user.Email = updateUser.Email ?? user.Email;
         user.PhoneNumber = updateUser.PhoneNumber ?? user.PhoneNumber;
-        user.ProjectIds = updateUser.ProjectIds ?? user.ProjectIds;
-        user.NoteIds = updateUser.NoteIds ?? user.NoteIds;
-        user.IssueIds = updateUser.IssueIds ?? user.IssueIds;
-        user.CommentIds = updateUser.CommentIds ?? user.CommentIds;
+        if (updateUser.ProjectIds != null && updateUser.ProjectIds.Any())
+        {
+            user.ProjectIds.AddRange(updateUser.ProjectIds.Except(user.ProjectIds));
+        }
+
+        if (updateUser.NoteIds != null && updateUser.NoteIds.Any())
+        {
+            user.NoteIds.AddRange(updateUser.NoteIds.Except(user.NoteIds));
+        }
+
+        if (updateUser.IssueIds != null && updateUser.IssueIds.Any())
+        {
+            user.IssueIds.AddRange(updateUser.IssueIds.Except(user.IssueIds));
+        }
+
+        if (updateUser.CommentIds != null && updateUser.CommentIds.Any())
+        {
+            user.CommentIds.AddRange(updateUser.CommentIds.Except(user.CommentIds));
+        }
+
         user.UpdatedAt = DateTime.Now;
     }
 }
