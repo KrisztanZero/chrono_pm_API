@@ -14,5 +14,6 @@ public class AppUser : IdentityUser
     public List<string> IssueIds { get; set; } = new List<string>();
     public List<string> CommentIds { get; set; } = new List<string>();
     public DateTime CreatedAt { get; init; } = DateTime.Now;
+    public DateTime? UpdatedAt { get; set; }
     public bool IsActive { get; set; }
 }

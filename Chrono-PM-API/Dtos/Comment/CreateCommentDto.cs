@@ -12,6 +12,7 @@ public record CreateCommentDto()
     [MaxLength(250, ErrorMessage = "Content must be at most 250 characters long")]
     public string Content { get; init; }
 
+    [MaxLength(450)]
     [Required(ErrorMessage = "IssueId is required")]
     public string IssueId { get; init; }
 }

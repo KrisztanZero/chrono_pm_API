@@ -17,7 +17,7 @@ public class Project
     public string Description { get; set; } = string.Empty;
     public DateTime DueDateTime { get; set; }
     public DateTime CreatedAt { get; init; } = DateTime.Now;
-    public DateTime UpdatedAt { get; set; } = DateTime.Now;
+    public DateTime? UpdatedAt { get; set; }
     [Range(0, int.MaxValue, ErrorMessage = "OriginalEstimate must be non-negative.")]
     public int OriginalEstimate { get; set; }
     [Range(0, int.MaxValue, ErrorMessage = "RemainingEstimate must be non-negative.")]

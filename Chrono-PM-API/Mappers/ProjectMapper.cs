@@ -27,7 +27,7 @@ public static class ProjectMapper
 
     public static IEnumerable<ProjectDto> MapToDto(IEnumerable<Project> projects)
     {
-        return projects.Select(project => MapToDto(project)).ToList();
+        return projects.Select(MapToDto).ToList();
     }
 
     public static Project MapToModel(CreateProjectDto createProjectDto, string authorId)
@@ -56,5 +56,22 @@ public static class ProjectMapper
         project.DueDateTime = updateProjectDto.DueDateTime ?? project.DueDateTime;
         project.OriginalEstimate = updateProjectDto.OriginalEstimate ?? project.OriginalEstimate;
         project.RemainingEstimate = updateProjectDto.RemainingEstimate ?? project.RemainingEstimate;
+
+        if (updateProjectDto.AssigneeIds != null && updateProjectDto.AssigneeIds.Count != 0)
+        {
+            project.AssigneeIds.AddRange(updateProjectDto.AssigneeIds.Except(project.AssigneeIds));
+        }
+
+        if (updateProjectDto.IssueIds != null && updateProjectDto.IssueIds.Count != 0)
+        {
+            project.IssueIds.AddRange(updateProjectDto.IssueIds.Except(project.IssueIds));
+        }
+
+        if (updateProjectDto.NoteIds != null && updateProjectDto.NoteIds.Count != 0)
+        {
+            project.NoteIds.AddRange(updateProjectDto.NoteIds.Except(project.NoteIds));
+        }
+
+        project.UpdatedAt = DateTime.Now;
     }
 }

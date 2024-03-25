@@ -18,6 +18,7 @@ public static class IssueMapper
             Description = issue.Description,
             DueDateTime = issue.DueDateTime,
             CreatedAt = issue.CreatedAt,
+            UpdatedAt = issue.UpdatedAt,
             OriginalEstimate = issue.OriginalEstimate,
             RemainingEstimate = issue.RemainingEstimate,
             AuthorId = issue.AuthorId,
@@ -25,10 +26,10 @@ public static class IssueMapper
             CommentIds = issue.CommentIds
         };
     }
-    
+
     public static IEnumerable<IssueDto> MapToDto(IEnumerable<Issue> issues)
     {
-        return issues.Select(issue => MapToDto(issue)).ToList();
+        return issues.Select(MapToDto).ToList();
     }
 
     public static Issue MapToModel(CreateIssueDto createDto, string authorId)
@@ -37,11 +38,11 @@ public static class IssueMapper
         {
             Title = createDto.Title,
             Project = createDto.Project,
-            Type = createDto.Type ?? default,
-            Priority = createDto.Priority ?? default,
+            Type = createDto.Type,
+            Priority = createDto.Priority,
             Summary = createDto.Summary,
             Description = createDto.Description,
-            DueDateTime = createDto.DueDateTime ?? default,
+            DueDateTime = createDto.DueDateTime,
             OriginalEstimate = createDto.OriginalEstimate ?? default,
             RemainingEstimate = createDto.RemainingEstimate ?? default,
             AuthorId = authorId,
@@ -53,37 +54,17 @@ public static class IssueMapper
 
     public static void MapForUpdate(UpdateIssueDto updateDto, Issue existingIssue)
     {
-        if (updateDto.Title != null)
-            existingIssue.Title = updateDto.Title;
-
-        if (updateDto.Project != null)
-            existingIssue.Project = updateDto.Project;
-
-        if (updateDto.Type != default)
-            existingIssue.Type = updateDto.Type;
-
-        if (updateDto.Priority != default)
-            existingIssue.Priority = updateDto.Priority;
-
-        if (updateDto.Summary != null)
-            existingIssue.Summary = updateDto.Summary;
-
-        if (updateDto.Description != null)
-            existingIssue.Description = updateDto.Description;
-
-        if (updateDto.DueDateTime != default)
-            existingIssue.DueDateTime = updateDto.DueDateTime;
-
-        if (updateDto.OriginalEstimate != default)
-            existingIssue.OriginalEstimate = updateDto.OriginalEstimate;
-
-        if (updateDto.RemainingEstimate != default)
-            existingIssue.RemainingEstimate = updateDto.RemainingEstimate;
-        
-        if (updateDto.AssigneeIds != null)
-            existingIssue.AssigneeIds = updateDto.AssigneeIds;
-
-        if (updateDto.CommentIds != null)
-            existingIssue.CommentIds = updateDto.CommentIds;
+        existingIssue.Title = updateDto.Title ?? existingIssue.Title;
+        existingIssue.Project = updateDto.Project ?? existingIssue.Project;
+        existingIssue.Type = updateDto.Type ?? existingIssue.Type;
+        existingIssue.Priority = updateDto.Priority ?? existingIssue.Priority;
+        existingIssue.Summary = updateDto.Summary ?? existingIssue.Summary;
+        existingIssue.Description = updateDto.Description ?? existingIssue.Description;
+        existingIssue.DueDateTime = updateDto.DueDateTime ?? existingIssue.DueDateTime;
+        existingIssue.OriginalEstimate = updateDto.OriginalEstimate ?? existingIssue.OriginalEstimate;
+        existingIssue.RemainingEstimate = updateDto.RemainingEstimate ?? existingIssue.RemainingEstimate;
+        existingIssue.AssigneeIds = updateDto.AssigneeIds ?? existingIssue.AssigneeIds;
+        existingIssue.CommentIds = updateDto.CommentIds ?? existingIssue.CommentIds;
+        existingIssue.UpdatedAt = DateTime.Now;
     }
 }

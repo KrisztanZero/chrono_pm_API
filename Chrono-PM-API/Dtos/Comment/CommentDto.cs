@@ -4,7 +4,7 @@ namespace Chrono_PM_API.Dtos.Comment;
 
 public record CommentDto()
 {
-    public string Id { get; init; }
+    [MaxLength(450)] public string Id { get; init; }
 
     [Required(ErrorMessage = "Summary is required")]
     [MaxLength(50, ErrorMessage = "Summary can be up to 50 characters long")]
@@ -16,9 +16,11 @@ public record CommentDto()
 
     public DateTime CreatedAt { get; init; }
 
+    [MaxLength(450)]
     [Required(ErrorMessage = "AuthorId is required")]
     public string AuthorId { get; init; }
 
+    [MaxLength(450)]
     [Required(ErrorMessage = "IssueId is required")]
     public string IssueId { get; init; }
 }

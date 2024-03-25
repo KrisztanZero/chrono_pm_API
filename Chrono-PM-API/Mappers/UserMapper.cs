@@ -20,13 +20,14 @@ public static class UserMapper
             IssueIds = user.IssueIds,
             CommentIds = user.CommentIds,
             CreatedAt = user.CreatedAt,
+            UpdatedAt = user.UpdatedAt,
             IsActive = user.IsActive,
         };
     }
 
     public static IEnumerable<AppUserDto> MapToDto(IEnumerable<AppUser> users)
     {
-        return users.Select(user => MapToDto(user)).ToList();
+        return users.Select(MapToDto).ToList();
     }
 
     public static AppUser MapToModel(AppUserDto userDto)
@@ -58,5 +59,6 @@ public static class UserMapper
         user.NoteIds = updateUser.NoteIds ?? user.NoteIds;
         user.IssueIds = updateUser.IssueIds ?? user.IssueIds;
         user.CommentIds = updateUser.CommentIds ?? user.CommentIds;
+        user.UpdatedAt = DateTime.Now;
     }
 }

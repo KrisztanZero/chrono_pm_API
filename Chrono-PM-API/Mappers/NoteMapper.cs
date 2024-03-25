@@ -35,9 +35,7 @@ public static class NoteMapper
 
     public static void MapForUpdate(UpdateNoteDto updateNoteDto, Note existingNote)
     {
-        if (updateNoteDto.Content != null)
-        {
-            existingNote.Content = updateNoteDto.Content;
-        }
+        existingNote.Content = updateNoteDto.Content ?? existingNote.Content;
+        existingNote.UpdatedAt = DateTime.Now;
     }
 }
