@@ -27,7 +27,6 @@
       <Folder Include="Documentation\Deveopment Guide\" />
       <Folder Include="Documentation\Notes\" />
       <Folder Include="Documentation\Test Documentation\" />
-      <Folder Include="Documentation\User Guide\" />
     </ItemGroup>
 
 </Project>
